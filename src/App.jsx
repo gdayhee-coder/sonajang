@@ -482,7 +482,7 @@ function FodmapSearch({C}) {
     if(loc){setRes({name:query,lv:loc[1],src:"db"});return;}
     setLoad(true); setRes(null);
     try{
-      const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:100,messages:[{role:"user",content:"음식 FODMAP 수준 JSON. 음식: "+query+". 형식: {"lv":"low","reason":"이유"}"}]})});
+     const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:100,messages:[{role:"user",content:"음식 FODMAP 수준을 JSON으로만 답하세요. 음식: "+query+". 형식 예시: lv는 low 또는 mid 또는 high, reason은 한줄 설명"}]})});
       const d=await r.json(); const t=(d.content||[]).map(c=>c.text||"").join("").replace(/```json|```/g,"").trim();
       const j=JSON.parse(t); setRes({name:query,lv:j.lv,reason:j.reason,src:"ai"});
     }catch(e){setRes({name:query,lv:null,src:"err"});}
